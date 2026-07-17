@@ -1,7 +1,7 @@
 import os
 
 class Settings:
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql:///timetable_db")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_GCH0cz8KrXgI@ep-old-rain-az9y1uow.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require")
     # Normalize database URLs from platforms like Heroku/Render/Railway
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
