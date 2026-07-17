@@ -1,13 +1,9 @@
 services:
-  # ===========================
   # FastAPI Backend
-  # ===========================
   - type: web
     name: timetable-backend
     env: python
     rootDir: backend
-    plan: free
-
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
 
@@ -23,15 +19,11 @@ services:
       - key: PYTHON_VERSION
         value: "3.11.9"
 
-  # ===========================
-  # React / Vite Frontend
-  # ===========================
+  # Vite Frontend
   - type: web
     name: timetable-frontend
     env: static
     rootDir: frontend
-    plan: free
-
     buildCommand: npm install && npm run build
     staticPublishPath: dist
 
@@ -44,9 +36,5 @@ services:
         source: /*
         destination: /index.html
 
-# ===========================
-# PostgreSQL Database
-# ===========================
 databases:
   - name: timetable-db
-    plan: free
