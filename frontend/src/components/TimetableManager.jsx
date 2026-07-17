@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+
 function TimetableManager({ authFetch, showToast, user }) {
   // Filters & State
   const [filterType, setFilterType] = useState('section'); // section, faculty, room, lab
@@ -391,7 +393,7 @@ function TimetableManager({ authFetch, showToast, user }) {
       showToast('Please select a specific Section to download Excel.', 'warning');
       return;
     }
-    window.open(`http://localhost:8000/api/export/excel/section/${selectedId}?token=${localStorage.getItem('token')}`, '_blank');
+    window.open(`${API_BASE}/export/excel/section/${selectedId}?token=${localStorage.getItem('token')}`, '_blank');
     showToast('Preparing Excel download...', 'success');
   };
 
@@ -400,7 +402,7 @@ function TimetableManager({ authFetch, showToast, user }) {
       showToast('Please select a specific Section to download PDF.', 'warning');
       return;
     }
-    window.open(`http://localhost:8000/api/export/pdf/section/${selectedId}?token=${localStorage.getItem('token')}`, '_blank');
+    window.open(`${API_BASE}/export/pdf/section/${selectedId}?token=${localStorage.getItem('token')}`, '_blank');
     showToast('Preparing PDF document...', 'success');
   };
 

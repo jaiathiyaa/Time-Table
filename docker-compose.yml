@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # Database Service
+  db:
+    image: postgres:15-alpine
+    container_name: timetable-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: timetable_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d timetable_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: timetable-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:password123@db:5432/timetable_db
+      SECRET_KEY: super_secret_ai_timetable_key_2026_change_me
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # React Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Client browser accesses backend on localhost:8000
+        - VITE_API_URL=http://localhost:8000/api
+    container_name: timetable-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
