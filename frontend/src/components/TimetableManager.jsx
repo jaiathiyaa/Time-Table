@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+const API_BASE = rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl}/api`;
 
 function TimetableManager({ authFetch, showToast, user }) {
   // Filters & State

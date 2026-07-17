@@ -5,7 +5,8 @@ import MasterData from './components/MasterData';
 import WorkloadMapping from './components/WorkloadMapping';
 import TimetableManager from './components/TimetableManager';
 
-export const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+export const API_BASE = rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl}/api`;
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
